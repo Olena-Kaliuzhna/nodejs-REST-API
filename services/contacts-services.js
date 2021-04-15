@@ -1,4 +1,5 @@
 const { ContactsRepository } = require('../repository')
+
 class ContactsServices {
   constructor() {
     this.repositories = {
@@ -13,13 +14,11 @@ class ContactsServices {
 
   getById({ id }) {
     const data = this.repositories.contacts.getById(id)
-    console.log('data', data)
     return data
   }
 
   create(body) {
     const data = this.repositories.contacts.create(body)
-    console.log('data', data)
     return data
   }
 

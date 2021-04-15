@@ -83,9 +83,7 @@ const remove = (req, res, next) => {
       res.status(HttpCode.OK).json({
         status: 'success',
         code: HttpCode.OK,
-        data: {
-          contact,
-        },
+        message: 'contact deleted',
       })
     } else {
       return next({

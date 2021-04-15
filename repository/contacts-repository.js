@@ -5,11 +5,9 @@ class ContactsRepository {
     return db.get('contacts').value()
   }
 
-  getById(id) {
-    console.log('id', id)
-    const dbR = db.get('contacts').find({ id }).value()
-    console.log('db', dbR)
-    return dbR
+  getById(contactId) {
+    const idS = String(contactId)
+    return db.get('contacts').find({ id: idS }).value()
   }
 
   create(body) {
@@ -19,18 +17,20 @@ class ContactsRepository {
       ...body,
     }
     db.get('contacts').push(record).write()
-    console.log('record', record)
     return record
   }
 
-  update(id, body) {
-    const record = db.get('contacts').find({ id }).assign(body).value()
+  update(contactId, body) {
+    const idS = String(contactId)
+    const record = db.get('contacts').find({ id: idS }).assign(body).value()
     db.write()
     return record
   }
 
-  remove(id) {
-    const [record] = db.get('contacts').remove({ id }).write()
+  remove(contactId) {
+    const idS = String(contactId)
+    const [record] = db.get('contacts').remove({ id: idS }).write()
+    console.log('record', [record])
     return record
   }
 }
