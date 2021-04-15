@@ -1,37 +1,36 @@
-const { v4: uuid } = require('uuid')
-const db = require('../db')
+const { v4: uuid } = require('uuid');
+const db = require('../db');
 class ContactsRepository {
   getAll() {
-    return db.get('contacts').value()
+    return db.get('contacts').value();
   }
 
   getById(contactId) {
-    const idS = String(contactId)
-    return db.get('contacts').find({ id: idS }).value()
+    const idS = String(contactId);
+    return db.get('contacts').find({ id: idS }).value();
   }
 
   create(body) {
-    const id = uuid()
+    const id = uuid();
     const record = {
       id,
       ...body,
-    }
-    db.get('contacts').push(record).write()
-    return record
+    };
+    db.get('contacts').push(record).write();
+    return record;
   }
 
   update(contactId, body) {
-    const idS = String(contactId)
-    const record = db.get('contacts').find({ id: idS }).assign(body).value()
-    db.write()
-    return record
+    const idS = String(contactId);
+    const record = db.get('contacts').find({ id: idS }).assign(body).value();
+    db.write();
+    return record;
   }
 
   remove(contactId) {
-    const idS = String(contactId)
-    const [record] = db.get('contacts').remove({ id: idS }).write()
-    console.log('record', [record])
-    return record
+    const idS = String(contactId);
+    const [record] = db.get('contacts').remove({ id: idS }).write();
+    return record;
   }
 }
-module.exports = ContactsRepository
+module.exports = ContactsRepository;
