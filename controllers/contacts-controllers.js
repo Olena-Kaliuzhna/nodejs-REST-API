@@ -3,9 +3,9 @@ const { ContactsServices } = require('../services');
 
 const contactsServices = new ContactsServices();
 
-const getAll = (req, res, next) => {
+const getAll = async (req, res, next) => {
   try {
-    const contacts = contactsServices.getAll();
+    const contacts = await contactsServices.getAll();
     res.status(HttpCode.OK).json({
       status: 'success',
       code: HttpCode.OK,
@@ -17,9 +17,9 @@ const getAll = (req, res, next) => {
     next(e);
   }
 };
-const getById = (req, res, next) => {
+const getById = async (req, res, next) => {
   try {
-    const contact = contactsServices.getById(req.params);
+    const contact = await contactsServices.getById(req.params);
     if (contact) {
       res.status(HttpCode.OK).json({
         status: 'success',
@@ -39,9 +39,9 @@ const getById = (req, res, next) => {
     next(e);
   }
 };
-const create = (req, res, next) => {
+const create = async (req, res, next) => {
   try {
-    const contact = contactsServices.create(req.body);
+    const contact = await contactsServices.create(req.body);
     res.status(HttpCode.CREATED).json({
       status: 'success',
       code: HttpCode.CREATED,
@@ -53,9 +53,16 @@ const create = (req, res, next) => {
     next(e);
   }
 };
-const update = (req, res, next) => {
+const update = async (req, res, next) => {
+  if (Object.values(req.body).length === 0) {
+    return next({
+      status: HttpCode.BAD_REQUEST,
+      message: 'Missing fields',
+      data: 'Missing fields',
+    });
+  }
   try {
-    const contact = contactsServices.update(req.params, req.body);
+    const contact = await contactsServices.update(req.params, req.body);
     if (contact) {
       res.status(HttpCode.OK).json({
         status: 'success',
@@ -75,9 +82,10 @@ const update = (req, res, next) => {
     next(e);
   }
 };
-const remove = (req, res, next) => {
+
+const remove = async (req, res, next) => {
   try {
-    const contact = contactsServices.remove(req.params);
+    const contact = await contactsServices.remove(req.params);
     if (contact) {
       res.status(HttpCode.OK).json({
         status: 'success',
@@ -96,10 +104,34 @@ const remove = (req, res, next) => {
   }
 };
 
+const updateStatus = async (req, res, next) => {
+  try {
+    const contact = await contactsServices.updateStatus(req.params, req.body);
+    if (contact) {
+      res.status(HttpCode.OK).json({
+        status: 'success',
+        code: HttpCode.OK,
+        data: {
+          contact,
+        },
+      });
+    } else {
+      return next({
+        status: HttpCode.NOT_FOUND,
+        message: 'Contact not found',
+        data: 'Not Found',
+      });
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
   remove,
+  updateStatus,
 };
