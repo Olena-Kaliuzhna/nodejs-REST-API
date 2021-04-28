@@ -10,6 +10,7 @@ const schemaCreateContact = Joi.object({
     })
     .required(),
   phone: Joi.string().min(9).max(15).required(),
+  favorite: Joi.boolean().optional(),
 });
 
 const schemaUpdateContact = Joi.object({
@@ -21,6 +22,7 @@ const schemaUpdateContact = Joi.object({
     })
     .optional(),
   phone: Joi.string().min(9).max(15).optional(),
+  favorite: Joi.boolean().optional(),
 }).min(1);
 
 const statusUpdateSchema = Joi.object({
