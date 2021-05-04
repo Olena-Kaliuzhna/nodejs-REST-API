@@ -35,6 +35,18 @@ class UsersRepository {
 
     return updatedUser;
   }
+
+  async updateAvatarById(userId, body) {
+    const updatedUser = await this.model.findByIdAndUpdate(
+      userId,
+      { ...body },
+      {
+        new: true,
+      },
+    );
+
+    return updatedUser;
+  }
 }
 
 module.exports = UsersRepository;
