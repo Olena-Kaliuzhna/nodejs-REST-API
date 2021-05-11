@@ -3,6 +3,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 
 const contactsRouter = require('./routes/api/contacts');
 const usersRouter = require('./routes/api/users');
@@ -13,6 +14,7 @@ const { apliLimit, jsonLimit } = require('./config/rate-limit.json');
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   '/api/',
   rateLimit({

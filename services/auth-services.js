@@ -22,7 +22,12 @@ class AuthServices {
     await this.repositories.users.updateToken(id, token);
     return {
       token,
-      user: { email: user.email, subscription: user.subscription, id: user.id },
+      user: {
+        email: user.email,
+        subscription: user.subscription,
+        id: user.id,
+        avatarURL: user.avatarURL,
+      },
     };
   }
 
@@ -34,7 +39,12 @@ class AuthServices {
   async current(email) {
     const user = await this.repositories.users.findByEmail(email);
 
-    return { email: user.email, subscription: user.subscription };
+    return {
+      email: user.email,
+      subscription: user.subscription,
+      id: user.id,
+      avatarURL: user.avatarURL,
+    };
   }
 }
 module.exports = AuthServices;
