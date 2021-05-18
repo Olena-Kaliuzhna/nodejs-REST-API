@@ -18,8 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   '/api/',
   rateLimit({
-    windowMs: apliLimit.windowMs,
-    max: apliLimit.max,
+    windowMs: apliLimit.windowMs, // 15 minutes
+    max: apliLimit.max, // limit each IP to 100 requests per windowMs
     handler: (_req, _res, next) => {
       next({
         status: HttpCode.BAD_REQUEST,
